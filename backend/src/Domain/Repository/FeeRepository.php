@@ -21,7 +21,7 @@ class FeeRepository {
     }
 
     public function getFeeByName($name) {
-        return $this->connection->table('fees')->where(Str::lower('name'), '=', $name)->get();
+        return $this->connection->table('fees')->where(Str::lower('namefee'), '=', $name)->get();
     }
 
     public function createFee($body) {
@@ -29,7 +29,7 @@ class FeeRepository {
         foreach($body as $key => $value ) {
             $values[$key] = $value;
         }
-        $values['period'] = date('Y');
+        $values['period'] = date("Y-m",strtotime($body['expiresin']));
 
         $this->connection->table('fees')->insert($values);
     }
@@ -39,21 +39,21 @@ class FeeRepository {
         foreach($body as $key => $value ) {
             $values[$key] = $value;
         }
-        $values['period'] = date('Y');
+        $values['period'] = date("Y-m",strtotime($body['expiresin']));
 
         $this->connection->table('fees')->where(['idfee' => $id])->update($values);
     }
 
-    public function updateStateFee($id, $state) {
+    public function updateStateFee($id, $status) {
         $values = [
-            'state' => $state
+            'status' => $status
         ];
         $this->connection->table('fees')->where(['idfee' => $id])->update($values);
     }
 
     public function deleteFee($id) {
         $values = [
-            'state' => 'Cancelada'
+            'status' => 'Cancelada'
         ];
 
         $this->connection->table('fees')->where(['idfee' => $id])->update($values);

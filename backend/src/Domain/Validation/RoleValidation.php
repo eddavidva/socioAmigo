@@ -13,13 +13,13 @@ class RoleValidation {
     }
 
     public function validateRequest($body) {
-        if(empty($body['name'])) {
+        if(empty($body['namerole'])) {
             throw new Exception('Nombre requerido.');
         }
     }
 
     public function validateCreateRole($body) {
-        $role = $this->repository->getRoleByName(mb_strtolower($body['name']));
+        $role = $this->repository->getRoleByName(mb_strtolower($body['namerole']));
         if(count($role) > 0) {
             throw new Exception('Rol ya existe.');
         }
@@ -27,7 +27,7 @@ class RoleValidation {
 
     public function validateUpdateRole($id, $body) {
         $roleId = $this->repository->getRoleById($id);
-        $roleName = $this->repository->getRoleByName(mb_strtolower($body['name']));
+        $roleName = $this->repository->getRoleByName(mb_strtolower($body['namerole']));
 
         if ($body['idrole'] != $id) {
             throw new Exception('Rol no autorizado.');

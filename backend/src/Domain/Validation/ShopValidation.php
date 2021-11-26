@@ -32,7 +32,7 @@ class ShopValidation {
         if (empty($body['number'])) {
             throw new Exception('Número requerido.');
         }
-        if (empty($body['name'])) {
+        if (empty($body['nameshop'])) {
             throw new Exception('Nombre requerido.');
         }
         $this->validatePartner($body['idpartner']);

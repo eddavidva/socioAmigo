@@ -14,35 +14,60 @@ class FeeShopRepository {
 
     public function getFeesShopsFilter($body) {
         $where = [];
-        foreach($body as $key => $value ) {
-            array_push($where, [$key, '=', $value]);
-        }
 
-        return $this->connection->table('feesshops')->where($where)->get();
+        if(!empty($body)) {
+            foreach($body as $key => $value ) {
+                $item = [$key, '=', $value];
+                if ($key == 'idfee' || $key == 'idshop') {
+                    $item = ['feesshops.' . $key, '=', $value];
+                }
+                if ($key == 'idpartner') {
+                    $item = ['shops.' . $key, '=', $value];
+                }
+
+                array_push($where, $item);
+            }
+            
+        } 
+        return $this->connection->table('feesshops')->join('fees', 'feesshops.idfee', '=', 'fees.idfee')
+                                                    ->join('shops', 'feesshops.idshop', '=', 'shops.idshop')
+                                                    ->join('partners', 'shops.idpartner', '=', 'partners.idpartner')
+                                                    ->where($where)
+                                                    ->get();
     }
 
-    public function getFeeShopById($id) {
-        return $this->connection->table('feesshops')->where('idfeeshop', '=', $id)->get();
+    public function getFeeShopById($idfee, $idshop) {
+        return $this->connection->table('feesshops')->where('idfee', '=', $idfee)
+                                                    ->where('idshop', '=', $idshop)
+                                                    ->get();
     }
 
-    public function createFeeShop($idfee, $idshop, $idpartner) {
+    public function getFeeShopByIdFee($idfee) {
+        return $this->connection->table('feesshops')->where('idfee', '=', $idfee)
+                                                    ->get();
+    }
+
+    public function createFeeShop($idfee, $idshop) {
         $values = [
             'idfee' => $idfee,
-            'idshop' => $idshop,
-            'idpartner' => $idpartner
+            'idshop' => $idshop
         ];
 
         $this->connection->table('feesshops')->insert($values);
     }
 
-    public function updateFeeShop($id, $body) {
+    public function updateFeeShop($body) {
         $values = [];
         foreach($body as $key => $value ) {
             $values[$key] = $value;
         }
-        $values["paidperiod"] = date("Y");
+        if(!empty($body['paiddate'])) {
+            $values['paidperiod'] = date("Y-m",strtotime($body['paiddate']));
+        }
 
-        $this->connection->table('feesshops')->where(['idfeeshop' => $id])->update($values);
+        $this->connection->table('feesshops')->where('idfee', '=', $body['idfee'])
+                                             ->where('idshop', '=', $body['idshop'])
+                                             ->update($values);
     }
 
 }

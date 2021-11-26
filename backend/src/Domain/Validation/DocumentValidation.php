@@ -71,7 +71,7 @@ class DocumentValidation {
 
     public function validateCreateDocument($body) {
         $document = $this->documentRepository->getDocumentByNumber($body['type'], $body['dni'], $body['documentnumber']);
-        if (count($document) > 0 && $document[0]->state != 'Cancelado') {
+        if (count($document) > 0 && $document[0]->status != 'Cancelado') {
             throw new Exception('Documento ya existe.');
         }
     }
@@ -90,7 +90,7 @@ class DocumentValidation {
         if (count($documentId) < 1) {
             throw new Exception('Documento no existe.');
         }
-        if ($documentId[0]->state == "Aprobado") {
+        if ($documentId[0]->status == "Aprobado") {
             throw new Exception('Documento no puede ser modificado.');
         }
         if (count($documentNumber) > 0) {

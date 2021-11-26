@@ -21,14 +21,15 @@ class AssociationValidation {
             throw new Exception('Asociación Directivo requerido.');
         }
 
-        if (empty($body['name'])) {
+        if (empty($body['nameassociation'])) {
             throw new Exception('Nombre requerido.');
         }
+
+        $this->validateManager($body['idmanager']);
     }
 
     public function validateCreateAssociation($body) {
-        $this->validateManager($body['idmanager']);
-        $association = $this->associationRepository->getAssociationByName($body['name']);
+        $association = $this->associationRepository->getAssociationByName($body['nameassociation']);
         if (count($association) > 0) {
             throw new Exception('Asociación ya existe.');
         }
@@ -39,9 +40,8 @@ class AssociationValidation {
             throw new Exception('Asociación no autorizada.');
         }
 
-        $this->validateManager($body['idmanager']);
         $associationId = $this->associationRepository->getAssociationById($id);
-        $associationName = $this->associationRepository->getAssociationByName($body['name']);
+        $associationName = $this->associationRepository->getAssociationByName($body['nameassociation']);
 
         if ($body['idassociation'] != $id) {
             throw new Exception('Asociación no autorizada.');

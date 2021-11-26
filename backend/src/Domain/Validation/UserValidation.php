@@ -21,9 +21,9 @@ class UserValidation {
             throw new Exception('Rol requerido.');
         }
 
-        if (empty($body['name'])) {
+        if (empty($body['nameuser'])) {
             throw new Exception('Nombre requerido.');
-        } else if (!preg_match('/^[\p{L} ]+$/u', $body['name'])) {
+        } else if (!preg_match('/^[\p{L} ]+$/u', $body['nameuser'])) {
             throw new Exception('Nombre incorrecto. ingrese únicamente letras.');
         }
 

@@ -23,7 +23,7 @@ class AssociationRepository {
     }
 
     public function getAssociationByName($name) {
-        return $this->connection->table('associations')->where(Str::lower('name'), '=', $name)->get();
+        return $this->connection->table('associations')->where(Str::lower('nameassociation'), '=', $name)->get();
     }
 
     public function createAssociation($body) {

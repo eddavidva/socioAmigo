@@ -23,9 +23,9 @@ class PartnerValidation {
             throw new Exception('Identificación incorrecta, ingrese únicamente números');
         }
 
-        if (empty($body['name'])) {
+        if (empty($body['namepartner'])) {
             throw new Exception('Nombre requerido.');
-        } else if (!preg_match('/^[\p{L} ]+$/u', $body['name'])) {
+        } else if (!preg_match('/^[\p{L} ]+$/u', $body['namepartner'])) {
             throw new Exception('Nombre incorrecto. ingrese únicamente letras.');
         }
 

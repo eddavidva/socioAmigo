@@ -59,7 +59,7 @@ class FeeShopService {
 
             $shops = $this->shopRepository->getShops();
             for ($i = 0; $i < count($shops); $i++) {
-                $this->feeShopRepository->createFeeShop($body['idfee'], $shops[$i]->idshop, $shops[$i]->idpartner);
+                $this->feeShopRepository->createFeeShop($body['idfee'], $shops[$i]->idshop);
             }
 
             $this->feeRepository->updateStateFee($body['idfee'], 'Enviada');
@@ -70,12 +70,12 @@ class FeeShopService {
         }
     }
 
-    public function updateFeeShop($id, $body) {
+    public function updateFeeShop($body) {
         try {
             $this->validation->validateRequest($body);
-            $this->validation->validateUpdateFeeShop($id, $body);
+            $this->validation->validateUpdateFeeShop($body);
 
-            $this->feeShopRepository->updateFeeShop($id, $body);
+            $this->feeShopRepository->updateFeeShop($body);
             return $this->responseHelper->getResponse();
         } catch (Exception $e) {
             return $this->responseHelper->getExceptionResponse($e);

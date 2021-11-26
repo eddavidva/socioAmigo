@@ -25,16 +25,20 @@ return function (App $app) {
         $group->post('/fee', '\App\Controller\FeeController:create');
         $group->put('/fee/{id}', '\App\Controller\FeeController:edit');
         $group->delete('/fee/{id}', '\App\Controller\FeeController:destroy');
-        $group->get('/feeshop/{id}', '\App\Controller\FeeShopController:show');
-        $group->post('/feeshop-filter', '\App\Controller\FeeShopController:index');
-        $group->post('/feeshop', '\App\Controller\FeeShopController:create');
-        $group->put('/feeshop/{id}', '\App\Controller\FeeShopController:edit');
+        // $group->get('/feeshop/{id}', '\App\Controller\FeeShopController:show');
+        $group->post('/feeshop/filter', '\App\Controller\FeeShopController:index');
+        $group->post('/feeshop/create', '\App\Controller\FeeShopController:create');
+        $group->post('/feeshop/edit', '\App\Controller\FeeShopController:edit');
 
         // MEETINGS
         $group->get('/meeting', '\App\Controller\MeetingController:index');
         $group->post('/meeting', '\App\Controller\MeetingController:create');
         $group->put('/meeting/{id}', '\App\Controller\MeetingController:edit');
-        $group->delete('/meeting/{id}', '\App\Controller\MeetingController:destroy');
+        // $group->delete('/meeting/{id}', '\App\Controller\MeetingController:destroy');
+        // $group->post('/meetingpartner/show', '\App\Controller\MeetingPartnerController:show');
+        $group->post('/meetingpartner/filter', '\App\Controller\MeetingPartnerController:index');
+        $group->post('/meetingpartner/create', '\App\Controller\MeetingPartnerController:create');
+        $group->post('/meetingpartner/edit', '\App\Controller\MeetingPartnerController:edit');
 
         // PARTNERS
         $group->post('/partnerlogin', '\App\Controller\PartnerLoginController:create');

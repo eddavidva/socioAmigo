@@ -21,7 +21,7 @@ class RoleRepository {
     }
 
     public function getRoleByName($name) {
-        return $this->connection->table('roles')->where(Str::lower('name'), '=', $name)->get();
+        return $this->connection->table('roles')->where(Str::lower('namerole'), '=', $name)->get();
     }
 
     public function createRole($body) {

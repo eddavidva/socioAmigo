@@ -5,38 +5,49 @@ namespace App\Domain\Validation;
 use Exception;
 use App\Domain\Repository\FeeShopRepository;
 use App\Domain\Repository\FeeRepository;
+use App\Domain\Repository\ShopRepository;
 
 class FeeShopValidation {
     private $feeShopRepository;
+    private $feeRepository;
+    private $shopRepository;
 
-    public function __construct(FeeShopRepository $feeShopRepository, FeeRepository $feeRepository) {
+    public function __construct(FeeShopRepository $feeShopRepository, FeeRepository $feeRepository, ShopRepository $shopRepository) {
         $this->feeShopRepository = $feeShopRepository;
         $this->feeRepository = $feeRepository;
+        $this->shopRepository = $shopRepository;
     }
 
     public function validateRequest($body) {
         if(empty($body['idfee']) || $body['idfee'] == 0) {
             throw new Exception('Cuota requerida.');
         }
-    }
-    
-    public function validateCreateFeeShop($body) {
+
         $fee = $this->feeRepository->getFeeById($body['idfee']);
         if(count($fee) < 1) {
             throw new Exception('Cuota no existe.');
         }
-        if($fee[0]->state == 'Enviada' || $fee[0]->state == 'Cancelada') {
-            throw new Exception('Cuota no puede ser asignada.');
+    }
+    
+    public function validateCreateFeeShop($body) {
+        $feeshop = $this->feeShopRepository->getFeeShopByIdFee($body['idfee']);
+        if(count($feeshop) > 0) {
+            throw new Exception('La cuota ya fué asignada.');
         }
     }
 
 
-    public function validateUpdateFeeShop($id, $body) {
-        if (empty($body['idfeeshop']) || $body['idfeeshop'] == 0) {
-            throw new Exception('Cuota asignada no autorizada.');
+    public function validateUpdateFeeShop($body) {
+        if (empty($body['idshop']) || $body['idshop'] == 0) {
+            throw new Exception('Local requerido.');
         }
-        if ($id != $body['idfeeshop']) {
-            throw new Exception('Cuota asignada no autorizada.');
+        $shop = $this->shopRepository->getShopById($body['idshop']);
+        if (count($shop) < 1 ) {
+            throw new Exception('Local no existe.');
+        }
+        $feeshop = $this->feeShopRepository->getFeeShopById($body['idfee'], $body['idshop']);
+        if (count($feeshop) < 1 ) {
+            throw new Exception('Cuota asignada no existe.');
         }
         if (empty($body['paiddate'])) {
             throw new Exception('Fecha de pago requerida.');
@@ -50,15 +61,5 @@ class FeeShopValidation {
         if($body['paidtype'] != 'Efectivo' && empty($body['paidimage'])) {
             throw new Exception('Imagen del comprobante de pago requerido.');
         }
-
-        $feeshop = $this->feeShopRepository->getFeeShopById($body['idfeeshop']);
-        if (count($feeshop) < 1 ) {
-            throw new Exception('Cuota asignada no existe.');
-        }
-        $fee = $this->feeRepository->getFeeById($body['idfee']);
-        if(count($fee) < 1) {
-            throw new Exception('Cuota no existe.');
-        }
-
     }
 }

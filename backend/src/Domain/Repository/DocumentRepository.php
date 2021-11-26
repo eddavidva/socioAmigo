@@ -33,10 +33,7 @@ class DocumentRepository {
             ['dni', '=', $dni],
             [Str::lower('documentnumber'), '=', $documentnumber]
         ];
-        return $this->connection->table('documents')->where($where)
-                                                    ->orderBy('created', 'desc')
-                                                    ->take(1)
-                                                    ->get();
+        return $this->connection->table('documents')->where($where)->get();
     }
 
     public function createDocument($body) {
@@ -44,6 +41,7 @@ class DocumentRepository {
         foreach($body as $key => $value ) {
             $values[$key] = $value;
         }
+        $values['period'] = date("Y-m",strtotime($body['documentdate']));
 
         $this->connection->table('documents')->insert($values);
     }
@@ -53,13 +51,15 @@ class DocumentRepository {
         foreach($body as $key => $value ) {
             $values[$key] = $value;
         }
+        $values['period'] = date("Y-m",strtotime($body['documentdate']));
+        
 
         $this->connection->table('documents')->where(['iddocument' => $id])->update($values);
     }
 
     public function deleteDocument($id) {
         $values = [
-            'state' => 'Cancelado'
+            'status' => 'Cancelado'
         ];
 
         $this->connection->table('documents')->where(['iddocument' => $id])->update($values);
