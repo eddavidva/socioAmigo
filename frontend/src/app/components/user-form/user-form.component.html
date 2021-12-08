@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>Nuevo Usuario</h2>
+<mat-dialog-content>
+  <div fxLayout="row" fxFlexFill fxLayout.lt-md="column" fxLayoutGap="16px">
+    <mat-form-field fxFlex>
+      <input matInput type="text" placeholder="* Nombre" formControlName="nombre">
+    </mat-form-field>
+    <mat-form-field fxFlex>
+      <input matInput type="email" placeholder="* Email" formControlName="email">
+    </mat-form-field>
+    <mat-form-field fxFlex>
+      <input matInput type="text" placeholder="* Celular" formControlName="celular">
+    </mat-form-field>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-raised-button [mat-dialog-close]="true" cdkFocusInitial color="primary">Registrar</button>
+</mat-dialog-actions>

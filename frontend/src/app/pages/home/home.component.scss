@@ -1,0 +1,61 @@
+.toolbar-spacer {
+    flex: 1 1 auto;
+}
+
+.toolbar-icon {
+    background-color: transparent;
+    color: white;
+    border-style: none;
+    cursor: pointer;
+    margin-top: 3px;
+    .icon-menu {
+        transform: scale(1.20);
+    }
+}
+
+.mat-menu-item .mat-icon {
+    margin-right: 5px;
+}
+
+.mat-menu-item {
+    line-height: 35px;
+    height: 35px;
+}
+
+mat-drawer-container {
+    height: calc(100vh - 65px);
+    // height: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+mat-drawer {
+    width: 300px;
+    padding: 5px 20px;
+}
+
+.menu-avatar {
+    margin-top: 5px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+.menu-name {
+    margin-top: 5px;
+    margin-bottom: 0;
+    font-weight: normal;
+}
+
+.menu-designation {
+    font-size: 0.7rem;
+    color: lightgrey;
+    margin-bottom: 3px;
+}
+
+.menu-content {
+    padding: 20px 0;
+}
+
+
+
+  

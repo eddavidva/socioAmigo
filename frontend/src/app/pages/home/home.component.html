@@ -1,0 +1,42 @@
+<mat-toolbar color="primary">
+    <button mat-icon-button class="toolbar-icon" (click)="drawer.toggle()">
+        <mat-icon *ngIf="!drawer.opened" class="icon-menu">menu</mat-icon>
+        <mat-icon *ngIf="drawer.opened" class="icon-menu">menu_open</mat-icon>
+    </button>
+    <span style="margin-left: 10px;">Asociación "El Viernazo"</span>
+    <span class="toolbar-spacer"></span>
+    <button mat-icon-button class="toolbar-icon">
+        <mat-icon matBadge="P" matBadgeColor="warn" matBadgePosition="above before" matBadgeSize="small">pending_actions</mat-icon>
+    </button>
+    <button mat-icon-button class="toolbar-icon" [matMenuTriggerFor]="menuUser">
+        <mat-icon>person_pin</mat-icon>
+    </button>
+    <mat-menu #menuUser="matMenu">
+    <ng-template matMenuContent>
+        <button mat-menu-item> 
+            <mat-icon>portrait</mat-icon>
+            <span>Mi perfil</span>
+        </button>
+        <button mat-menu-item>
+            <mat-icon>exit_to_app</mat-icon>
+            <span>Cerrar sesión</span>
+        </button>
+    </ng-template>
+    </mat-menu>
+</mat-toolbar>
+<mat-drawer-container>
+    <mat-drawer #drawer>
+        <div style="text-align: center;">
+            <img class="menu-avatar mat-elevation-z8" src="https://source.unsplash.com/c_GmwfHBDzk/200x200" />
+            <h4 class="menu-name">David Valdivieso</h4>
+            <p class="menu-designation">Desarrollador de Software</p>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="menu-content">
+            <p>Menu</p>
+        </div>
+    </mat-drawer>
+    <div class="sidenav-content">
+        <app-users></app-users>
+    </div>
+</mat-drawer-container>
